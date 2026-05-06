@@ -45,8 +45,8 @@ def on_click(event):
         destination = None
         print("Reset")
 
-
-def dijkstra_generator(graph, source):
+# Dijkstra 
+def dijkstra_generator(graph, source, destination):
 
     distance = {node: float('inf') for node in graph.nodes} # Distance dictionary
     distance[source] = 0 # Set source distance to 0
@@ -58,6 +58,10 @@ def dijkstra_generator(graph, source):
 
     while priority: # While we have nodes 
         current_distance, current_node = heapq.heappop(priority) # Pop current closest node and its distance
+
+        if current_node == destination: # Check if we got to destination
+            print(f"Destination reached at: {current_node}")
+            return
     
         if current_node in visited: # If current was visited
             continue # Skip
