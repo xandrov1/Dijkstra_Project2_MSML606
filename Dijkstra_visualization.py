@@ -7,20 +7,20 @@ import heapq
 
 # To download and save graph to .gramphml
 # try:
-#     place = ox.graph_from_place("Manhattan , New York, USA")
-#     ox.save_graphml(place, "manhattan.graphml")
+#     place = ox.graph_from_place("Washington Heights, New York, USA") # Changed to smaller part of manhattan because all of manhattan isn't clearly visible, nodes are too dense
+#     ox.save_graphml(place, "roadnetwork.graphml")
 
 # except Exception as e: 
-#     print(f"omething went wrong: {e}") 
+#     print(f"Something went wrong: {e}") 
 
 # File load from local
 try:
-    place = ox.load_graphml("manhattan.graphml")
+    place = ox.load_graphml("roadnetwork.graphml")
     print(f"Graph loaded")
 except Exception as e:
     print(f"Something went wrong: {e}")
 
-fig, ax = ox.plot_graph(place, show= False) # Get fig and ax to connect click event; stop automatic plotting with show
+fig, ax = ox.plot_graph(place, show=False, figsize=(12, 16), node_size=10, edge_linewidth=0.5, edge_color='white', bgcolor='black') # Get fig and ax to connect click event; stop automatic plotting with show
 original_collections = set(ax.collections) # Save original
 source = None
 destination = None
