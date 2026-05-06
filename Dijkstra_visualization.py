@@ -41,7 +41,7 @@ def on_click(event):
     elif destination is None: # Second is destination
         destination = ox.nearest_nodes(place, x, y)
         print(f"Source: {source} - Destination: {destination}")
-        gen = dijkstra_generator(place, source, destination) # Trigger Dijkstra
+        gen = dijkstra_generator(place, source, destination) # Trigger 
     else: # Third is reset
         source = None
         destination = None
