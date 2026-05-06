@@ -22,10 +22,11 @@ except Exception as e:
 fig, ax = ox.plot_graph(place, show= False) # Get fig and ax to connect click event; stop automatic plotting with show
 source = None
 destination = None
+gen = None
 
 # Click interaction
 def on_click(event):
-    global source, destination # Set globals
+    global source, destination, gen # Set globals
 
     # print(event.xdata, event.ydata) # Print coordinates
 
@@ -40,12 +41,13 @@ def on_click(event):
     elif destination is None: # Second is destination
         destination = ox.nearest_nodes(place, x, y)
         print(f"Source: {source} - Destination: {destination}")
+        gen = dijkstra_generator(place, source, destination) # Trigger Dijkstra
     else: # Third is reset
         source = None
         destination = None
         print("Reset")
 
-# Dijkstra 
+# Dijkstra generator
 def dijkstra_generator(graph, source, destination):
 
     distance = {node: float('inf') for node in graph.nodes} # Distance dictionary
