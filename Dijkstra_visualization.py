@@ -1,7 +1,7 @@
+# No AI used in the making of this project
 import osmnx as ox
 import matplotlib.pyplot as plt 
 from matplotlib import animation
-import networkx as nx
 import heapq
 
 
@@ -114,14 +114,29 @@ def animate(frame):
         ys = [place.nodes[n]['y'] for n in visited]
         ax.scatter(xs, ys, c='red', s=10, zorder=5) # Node coloring
         prev_node = previous[current_node]
-        if prev_node is not None: # Explored paths drawing
-            x_vals = [place.nodes[prev_node]['x'], place.nodes[current_node]['x']]
-            y_vals = [place.nodes[prev_node]['y'], place.nodes[current_node]['y']]
-            ax.plot(x_vals, y_vals, c='purple', linewidth=1, zorder=4)
-        if path: # Path drawing
-            xs = [place.nodes[n]['x'] for n in path]
-            ys = [place.nodes[n]['y'] for n in path]
-            ax.plot(xs, ys, c='yellow', linewidth=2, zorder=6)
+
+        if prev_node is not None: # Explored paths drawing following maps exact edge geometry
+            edge_data = place[prev_node][current_node][0]
+            if 'geometry' in edge_data:
+                xs = [p[0] for p in edge_data['geometry'].coords]
+                ys = [p[1] for p in edge_data['geometry'].coords]
+            else:
+                xs = [place.nodes[prev_node]['x'], place.nodes[current_node]['x']]
+                ys = [place.nodes[prev_node]['y'], place.nodes[current_node]['y']]
+            ax.plot(xs, ys, c='purple', linewidth=1, zorder=4)
+
+        if path: # Final path drawing following exact.....
+            for i in range(len(path) - 1):
+                u, v = path[i], path[i+1]
+                edge_data = place[u][v][0]
+                if 'geometry' in edge_data:
+                    xs = [p[0] for p in edge_data['geometry'].coords]
+                    ys = [p[1] for p in edge_data['geometry'].coords]
+                else:
+                    xs = [place.nodes[u]['x'], place.nodes[v]['x']]
+                    ys = [place.nodes[u]['y'], place.nodes[v]['y']]
+                ax.plot(xs, ys, c='yellow', linewidth=2, zorder=6)
+
     except StopIteration:
         return
 
