@@ -1,5 +1,6 @@
 import osmnx as ox
 import matplotlib.pyplot as plt 
+from matplotlib import animation
 import networkx as nx
 import heapq
 
@@ -20,6 +21,7 @@ except Exception as e:
     print(f"Something went wrong: {e}")
 
 fig, ax = ox.plot_graph(place, show= False) # Get fig and ax to connect click event; stop automatic plotting with show
+original_collections = set(ax.collections) # Save original
 source = None
 destination = None
 gen = None
@@ -46,6 +48,11 @@ def on_click(event):
         source = None
         destination = None
         print("Reset")
+        gen = None # Drop old process and reset node colors
+        for collection in ax.collections[:]:
+            if collection not in original_collections:
+                collection.remove()
+        ax.figure.canvas.draw_idle()
 
 # Dijkstra generator
 def dijkstra_generator(graph, source, destination):
@@ -80,9 +87,20 @@ def dijkstra_generator(graph, source, destination):
                     distance[neighbor] = new_distance # Update current distance
                     heapq.heappush(priority, (new_distance, neighbor)) # Push to queue
 
-        
-            
+    print(f"No path found to destination") # No path found
+
+def animate(frame):
+    if gen is None:
+        return
+    
+    try: 
+        current_node, visited = next(gen)
+        xs = [place.nodes[n]['x'] for n in visited]
+        ys = [place.nodes[n]['y'] for n in visited]
+        ax.scatter(xs, ys, c='red', s=1, zorder=5)
+    except StopIteration:
+        return
 
 fig.canvas.mpl_connect('button_press_event', on_click) # Click connection
-
+ani = animation.FuncAnimation(fig, animate, interval=50, cache_frame_data=False) # Connect animate to FuncAnimation
 plt.show()
