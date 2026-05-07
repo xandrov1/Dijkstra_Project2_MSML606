@@ -73,3 +73,5 @@ We chose Inwood over using the entire city because Manhattan's full road network
 **One-way street handling:** The graph is directed, and `graph.successors()` only returns neighbors reachable via outgoing directed edges. In turn, the algorithm naturally respects one-way streets, meaning that it will never traverse a road in the wrong direction. Additionally, edge directions are not labeled in the visualization to avoid severe node density, but they are present throughout the traversal stage.
 
 **When no path exists:** If the priority queue has been emptied before reaching the destination, the algorithm prints `"No path found to destination"` and the generator ends. This usually happens when the destination node is unreachable from the source, following directed edges.
+
+**Video demo:** https://drive.google.com/file/d/1d5F8S5Li2zdSMdUN5fFoIW_pnQziE08X/view?usp=drive_link
