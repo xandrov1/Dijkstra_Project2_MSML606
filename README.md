@@ -2,7 +2,7 @@
 
 ***AI USAGE STATEMENT: GENERATIVE AI WAS NOT USED IN THE MAKING OF THIS REPORT OR CODE***
 
-Our program for MSML606's extra credit project 2 is an interactive visualization of Dijkstra's shortest-path algorithm running on a real road network. Click two points on the map to watch the algorithm explore the network in real time, then see the shortest path highlighted once the destination is reached.
+Our program for MSML606's extra credit project 2 is an interactive visualization of Dijkstra's shortest-path algorithm running on a real road network. Click two points on the map to watch the algorithm explore the network in real time, then see the shortest path highlighted once the destination is reached. Click a third time anywhere to reset the map and repeat the visualization on other nodes. 
 
 > **Authors:** Alessandro Vivaldi & Andrew Liu
 
@@ -18,7 +18,7 @@ Our program for MSML606's extra credit project 2 is an interactive visualization
 Install dependencies with:
 
 ```bash
-pip install osmnx networkx matplotlib
+pip install osmnx matplotlib
 ```
 
 ---
@@ -70,7 +70,7 @@ Dijkstra's algorithm is a greedy algorithm for weighted graphs. Its use case in 
 
 We chose Inwood over using the entire city because Manhattan's full road network is far too dense to visualize clearly. Inwood provided us with a better representation of the area while being a legible subset.
 
-**One-way street handling:** The graph is directed, and `graph.successors()` only returns neighbors reachable via outgoing directed edges. In turn, the algorithm naturally respects one-way streets, meaning that it will never traverse a road in the wrong direction. Additionally, edge directions are not labeled in the visualization to avoid severe node density, but they are present throughout the traversal stage.
+**One-way street handling:** The graph is directed, and `graph.successors()` only returns neighbors reachable via outgoing directed edges. In turn, the algorithm naturally respects one-way streets, meaning that it will never traverse a road in the wrong direction. Additionally, edge directions are not labeled in the graph for visualization reasons (map is very dense), but they are respected by the algorithm during traversals.
 
 **When no path exists:** If the priority queue has been emptied before reaching the destination, the algorithm prints `"No path found to destination"` and the generator ends. This usually happens when the destination node is unreachable from the source, following directed edges.
 
